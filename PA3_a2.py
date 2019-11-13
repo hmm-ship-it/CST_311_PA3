@@ -15,10 +15,10 @@ def myNetwork():
     net = Mininet( topo=None,
                    build=False,
                    ipBase='192.168.1.0/24')
-
+    
     info( '*** Adding controller\n' )
     info( '*** Add switches\n')
-    r1 = net.addHost('r1', cls=Node, ip='192.168.1.1/24')
+    r1 = net.host('r1', cls=Node, ip='192.168.1.1/24')
     r1.cmd('sysctl -w net.ipv4.ip_forward=1')
 
     info( '*** Add hosts\n')
@@ -38,7 +38,7 @@ def myNetwork():
     info( '*** Starting switches\n')
 
     info( '*** Post configure switches and hosts\n')
-
+    print net[ 'r1' ].cmd( 'route')
     CLI(net)
     net.stop()
 
