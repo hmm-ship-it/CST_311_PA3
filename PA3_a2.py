@@ -18,17 +18,16 @@ def myNetwork():
 
     info( '*** Adding controller\n' )
     info( '*** Add switches\n')
-    r1 = net.addHost('r1', cls=Node, ip='0.0.0.0')
+    r1 = net.addHost('r1', cls=Node, ip='192.168.1.1/24')
     r1.cmd('sysctl -w net.ipv4.ip_forward=1')
 
     info( '*** Add hosts\n')
-    h2 = net.addHost('h2', cls=Host, ip='192.168.2.11', defaultRoute='via 192.168.2.1')
-    Intf( 'intA', node=h2 )
-    h1 = net.addHost('h1', cls=Host, ip='192.168.1.12', defaultRoute='via 192.168.1.1')
+    h2 = net.addHost('h2', cls=Host, ip='192.168.2.12/24', defaultRoute='via 192.168.2.1/24')
+    h1 = net.addHost('h1', cls=Host, ip='192.168.1.11/24', defaultRoute='via 192.168.1.1/24')
 
     info( '*** Add links\n')
-    net.addLink(h1, r1)
-    net.addLink(h2, r1)
+    net.addLink(h1, r1, intfName2='r1-eth0', params2={'ip' : '192.168.1.1/24'})
+    net.addLink(h2, r1, intfName2='r1-eth1', params2={'ip' : '192.168.2.1/24'})
 
     info( '*** Starting network\n')
     net.build()
